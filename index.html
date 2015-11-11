@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>setTimeout()</h1>
+    <p>
+    window.setTimeout() allows you to specify that a piece of JavaScript code (called an expression) will be run a specified number of milliseconds from when the setTimeout() method was called. The general syntax of the method is:</p>
+    <input type="button" name="clickMe" value="Click me and wait!"
+    onclick="setTimeout('alert(\'Surprise!\')', 5000)"/>
+    <p>
+      clicking a button calls a function that changes the button's text colour to red. At the same time, this function also sets up a timed function using setTimeout() that sets the text colour back to black after 2 seconds:
+    </p>
+    <script type="text/javascript">
+
+    function setToRed ( )
+    {
+      document.getElementById("colourButton").style.color = "#FF0000";
+      setTimeout ( "setToBlack()", 2000 );
+    }
+
+    function setToBlack ( )
+    {
+      document.getElementById("colourButton").style.color = "#000000";
+    }
+
+    </script>
+
+    <input type="button" name="clickMe" id="colourButton" value="Click me and wait!" onclick="setToRed()"/>
+
+    <h1>clearTimeout()</h1>
+    <p>Sometimes it's useful to be able to cancel a timer before it goes off. The clearTimeout() method lets us do exactly that. Its syntax is:
+      <blockquote>
+        clearTimeout ( timeoutId );
+      </blockquote>
+      where timeoutId is the ID of the timeout as returned from the setTimeout() method call.
+
+    For example, the following code sets up an alert box to appear after 3 seconds when a button is clicked, but the visitor can click the same button before the alert appears and cancel the timeout:
+    </p>
+    <script type="text/javascript">
+
+    var alertTimerId = 0;
+
+    function alertTimerClickHandler ( )
+    {
+      if ( document.getElementById("alertTimerButton").value == "Click me and wait!" )
+      {
+        // Start the timer
+        document.getElementById("alertTimerButton").value = "Click me to stop the timer!";
+        alertTimerId = setTimeout ( "showAlert()", 3000 );
+      }
+      else
+      {
+        document.getElementById("alertTimerButton").value = "Click me and wait!";
+        clearTimeout ( alertTimerId );
+      }
+    }
+
+    function showAlert ( )
+    {
+      alert ( "Too late! You didn't stop the timer." );
+      document.getElementById("alertTimerButton").value = "Click me and wait!";
+    }
+
+    </script>
+
+    <input type="button" name="clickMe" id="alertTimerButton" value="Click me and wait!" onclick="alertTimerClickHandler()"/>
+
+    <h1>setInterval()</h1>
+    <bockquote>setInterval ( expression, interval );</bockquote>
+    <p>The setInterval() function is very closely related to setTimeout() - The important difference is that, whereas setTimeout() triggers expression only once, setInterval() keeps triggering expression again and again (unless you tell it to stop).
+
+    So when should you use it? Essentially, if you ever find yourself writing code like:</p>
+    <blockquote >
+      setTimeout ( "doSomething()", 5000 );
+
+      function doSomething ( )
+      {
+        // (do something here)
+        setTimeout ( "doSomething()", 5000 );
+      }
+
+    </blockquote>
+    <p>
+      As you've probably guessed, if you want to cancel a setInterval() then you need to call clearInterval(), passing in the interval ID returned by the call to setInterval().
+    </p>
+    <p>
+
+      Here's a simple example of setInterval() and clearInterval() in action. When you press a button, the following code displays "Woo!" and "Yay!" randomly every second until you tell it to stop. (I said a simple example, not a useful one.) Notice how we've also used a setTimeout() within the wooYay() function to make the "Woo!" or "Yay!" disappear after half a second:
+    </p>
+    <p>
+      <script type="text/javascript">
+
+      var wooYayIntervalId = 0;
+
+      function wooYayClickHandler ( )
+      {
+        if ( document.getElementById("wooYayButton").value == "Click me!" )
+        {
+          // Start the timer
+          document.getElementById("wooYayButton").value = "Enough already!";
+          wooYayIntervalId = setInterval ( "wooYay()", 1000 );
+        }
+        else
+        {
+          document.getElementById("wooYayMessage").innerHTML = "";
+          document.getElementById("wooYayButton").value = "Click me!";
+          clearInterval ( wooYayIntervalId );
+        }
+      }
+
+      function wooYay ( )
+      {
+        if ( Math.random ( ) > .5 )
+        {
+          document.getElementById("wooYayMessage").innerHTML = "Woo!";
+        }
+        else
+        {
+          document.getElementById("wooYayMessage").innerHTML = "Yay!";
+        }
+
+        setTimeout ( 'document.getElementById("wooYayMessage").innerHTML = ""', 500 );
+
+      }
+
+      </script>
+
+      <div id="wooYayMessage" style="height: 1.5em; font-size: 2em; color: red;"></div>
+      <input type="button" name="clickMe" id="wooYayButton" value="Click me!" onclick="wooYayClickHandler()"/>
+    </p>
+
+
+  </body>
+</html>
